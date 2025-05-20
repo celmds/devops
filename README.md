@@ -38,3 +38,6 @@ Base de données : db
 1-4 .
 Une construction en plusieurs étapes nous permet de séparer la phase de construction (qui nécessite un JDK complet et des outils de construction comme Maven) de la phase d'exécution (qui n'a besoin que d'un JRE léger pour exécuter l'application).
 Cela permet d'obtenir des images Docker plus petites, plus rapides et plus sûres, car l'image finale ne contient ni Maven ni JDK, mais uniquement l'application compilée.
+
+1-5.
+Un proxy inverse transmet les requêtes des utilisateurs/navigateurs web aux serveurs web. Ici, Apache en proxy inverse protège l'API Spring Boot, centralise les requêtes sur le port 80 que j'ai choisi, et permet d'ajouter SSL ou un frontend ultérieurement.
