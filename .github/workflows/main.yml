@@ -1,0 +1,29 @@
+name: CI devops 2025
+on:
+  #to begin you want to launch this job in main and develop
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+jobs:
+  test-backend: 
+    runs-on: ubuntu-24.04
+    steps:
+      #checkout your github code using actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      #do the same with another action (actions/setup-java@v4) that enable to setup jdk 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21 
+          # installe Java JDK version 21 (Temurin est une distribution OpenJDK).
+
+      #finally build your app with the latest command
+      - name: Build and test with Maven
+        run: mvn clean verify
+# lance la commande Maven mvn clean verify
+# Cela va nettoyer les anciens builds, compiler l’application et lancer les tests unitaires et d’intégration.
