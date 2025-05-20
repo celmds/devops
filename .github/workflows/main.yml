@@ -28,12 +28,15 @@ jobs:
 
 
       - name: Analyse avec SonarCloud
-        run: mvn -B verify sonar:sonar \
-          -Dsonar.projectKey=celmds \
-          -Dsonar.organization=celmds \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN}} \
-          --file TP1/tp-postgres/simpleapi/pom.xml
+        working-directory: 'TP1/tp-postgres/simpleapi'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify sonar:sonar 
+          -Dsonar.projectKey=celmds 
+          -Dsonar.organization=celmds 
+          -Dsonar.host.url=https://sonarcloud.io 
+          -Dsonar.login=${{ secrets.SONAR_TOKEN}} 
+          --file ./pom.xml
 
 # lance la commande Maven mvn clean verify
 # Ca va nettoyer les anciens builds, compiler l’application et lancer les tests unitaires et d’intégration.
