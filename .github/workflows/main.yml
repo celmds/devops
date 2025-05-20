@@ -61,7 +61,7 @@ jobs:
       - name: Build image and push httpd
         uses: docker/build-push-action@v6
         with:
-          context: TP1/tp-postgres/httpd
+          context: TP1/tp-postgres/HTTP-server
           tags: ${{ secrets.DOCKER_USERNAME}}/tp-devops-simple-httpd:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
