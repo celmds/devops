@@ -39,7 +39,7 @@ jobs:
 
     # Connexion à DockerHub pour pouvoir publier les images
       - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
     # Build & push backend
       - name: Build image and push backend
