@@ -29,8 +29,7 @@ jobs:
 # Ca va nettoyer les anciens builds, compiler l’application et lancer les tests unitaires et d’intégration.
 # clean sert à supprimer les fichiers générés par les builds précédents, verify exécute les tests et vérifie que le projet est valide.
   # define job to build and publish docker image
-# define job to build and publish docker image
-build-and-push-docker-image:
+  build-and-push-docker-image:
   needs: test-backend  # 2-3: On attend que les tests passent avant de builder les images
   runs-on: ubuntu-24.04
 
@@ -65,4 +64,3 @@ build-and-push-docker-image:
         context: ./httpd
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-httpd:latest
         push: ${{ github.ref == 'refs/heads/main' }}
-
