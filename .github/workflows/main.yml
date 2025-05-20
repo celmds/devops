@@ -24,6 +24,6 @@ jobs:
 
       #finally build your app with the latest command
       - name: Build and test with Maven
-        run: mvn clean verify
+        run: mvn -f TP1/tp-postgres/simpleapi/pom.xml clean verify
 # lance la commande Maven mvn clean verify
 # Cela va nettoyer les anciens builds, compiler l’application et lancer les tests unitaires et d’intégration.
