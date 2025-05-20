@@ -25,6 +25,16 @@ jobs:
       #finally build your app with the latest command
       - name: Build and test with Maven
         run: mvn -f TP1/tp-postgres/simpleapi/pom.xml clean verify
+
+
+      - name: Analyse avec SonarCloud
+        run: mvn -B verify sonar:sonar \
+          -Dsonar.projectKey=celmds \
+          -Dsonar.organization=celmds \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN}} \
+          --file ./simple-api/pom.xml
+
 # lance la commande Maven mvn clean verify
 # Ca va nettoyer les anciens builds, compiler l’application et lancer les tests unitaires et d’intégration.
 # clean ça sert à supprimer les fichiers générés par les builds précédents, verify exécute les tests et vérifie que le projet est valide.

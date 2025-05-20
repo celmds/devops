@@ -167,4 +167,12 @@ On en a besoin d'utiliser des variables sécurisées car il est important uqe le
 On a ajouté needs: build-and-test-backend pour que le job qui construit et pousse l'image Docker attende que les tests du backend soient passés avec succès avant de se lancer.
 En gros, ça sert à éviter de builder une image si le code est cassé ou si les tests ne passent pas. C’est un peu comme dire : "OK, je ne construis et publie l’image que si tout est bon avant."
 
-J’ai essayé de retirer le needs: pour voir, et le job de build s’est quand même lancé, même si les tests avaient échoué, donc ça peut être dangereux parce qu’on pourrait se retrouver à pousser une image qui ne fonctionne pas.
+J’ai essayé de retirer le "needs:" pour voir, et le job de build s’est quand même lancé, même si les tests avaient échoué, donc ça peut être dangereux parce qu’on pourrait se retrouver à pousser une image qui ne fonctionne pas.
+
+1-4
+
+On pousse des images Docker pour pouvoir les réutiliser facilement ailleurs, comme en production, sur un serveur distant, dans un cluster Kubernetes ou même dans un autre projet.
+Le but, c’est d’avoir une version figée et prête à l’emploi de notre application (backend, base de données, etc.), qu’on peut déployer n’importe où, sans se soucier de la config locale.
+
+
+b15755a9bb062a62fec20aafb7d0fe512c0ea244
