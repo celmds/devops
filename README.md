@@ -65,7 +65,8 @@ docker-compose ps : liste les conteneurs actifs et montre leur état.
 
 
 1-8 Mon fichier docker-compose.yml  :
-'''
+```
+
 version: "3.9"
 
 services:
@@ -149,7 +150,8 @@ networks: # define the networks
 
 volumes: # define the volumes
   pgdata:
-'''
+```
+
 
 https://hub.docker.com/repositories/celmds
 
