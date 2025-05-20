@@ -29,39 +29,40 @@ jobs:
 # Ca va nettoyer les anciens builds, compiler l’application et lancer les tests unitaires et d’intégration.
 # clean sert à supprimer les fichiers générés par les builds précédents, verify exécute les tests et vérifie que le projet est valide.
   # define job to build and publish docker image
+# define job to build and publish docker image
 build-and-push-docker-image:
-  needs: test-backend
-  # run only when code is compiling and tests are passing
+  needs: test-backend  # 2-3: On attend que les tests passent avant de builder les images
   runs-on: ubuntu-24.04
 
-  # steps to perform in job
   steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Log in to DockerHub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    # Connexion à DockerHub pour pouvoir publier les images
+    - name: Login to DockerHub
+      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
+    # Build & push backend
     - name: Build image and push backend
       uses: docker/build-push-action@v6
       with:
         context: ./backend
-        push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
+        push: ${{ github.ref == 'refs/heads/main' }}
 
+    # Build & push database
     - name: Build image and push database
       uses: docker/build-push-action@v6
       with:
         context: ./database
-        push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-db:latest
+        push: ${{ github.ref == 'refs/heads/main' }}
 
+    # Build & push httpd
     - name: Build image and push httpd
       uses: docker/build-push-action@v6
       with:
         context: ./httpd
-        push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-httpd:latest
+        push: ${{ github.ref == 'refs/heads/main' }}
+
