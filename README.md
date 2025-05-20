@@ -157,3 +157,14 @@ https://hub.docker.com/repositories/celmds
 
 1.9
 On met nos images Docker dans un dépôt en ligne comme Docker Hub pour pouvoir les partager facilement avec l’équipe, les déployer sur d’autres machines sans tout recompiler, et garder un historique des versions, comme un GitHub pour les conteneurs
+
+2-1
+Les Testcontainers sont une librairie de test (dispo en Java, Python, Node.js, etc.) qui permet de lancer des conteneurs Docker pendant que tu fais des tests automatisés.
+donc au lieu de te connecter à une vraie base de données ou un vrai service dans tes tests, tu lances un conteneur temporaire (par exemple une base PostgreSQL, Redis, MongoDB…) juste pour la durée du test.
+2-2
+On en a besoin d'utiliser des variables sécurisées car il est important uqe les autres developpeurs n'aient pas acces a nos identifiants docker hub donc on les 'cache' dans des repository secrets
+2-3
+On a ajouté needs: build-and-test-backend pour que le job qui construit et pousse l'image Docker attende que les tests du backend soient passés avec succès avant de se lancer.
+En gros, ça sert à éviter de builder une image si le code est cassé ou si les tests ne passent pas. C’est un peu comme dire : "OK, je ne construis et publie l’image que si tout est bon avant."
+
+J’ai essayé de retirer le needs: pour voir, et le job de build s’est quand même lancé, même si les tests avaient échoué, donc ça peut être dangereux parce qu’on pourrait se retrouver à pousser une image qui ne fonctionne pas.
