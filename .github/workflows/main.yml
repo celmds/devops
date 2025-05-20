@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./backend
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
+          tags: ${{ secrets.DOCKER_USERNAME}}/tp-devops-simple-api:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
     # Build & push database
@@ -54,7 +54,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./database
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-db:latest
+          tags: ${{ secrets.DOCKER_USERNAME}}/tp-devops-simple-db:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
     # Build & push httpd
@@ -62,6 +62,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./httpd
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-httpd:latest
+          tags: ${{ secrets.DOCKER_USERNAME}}/tp-devops-simple-httpd:latest
           push: ${{ github.ref == 'refs/heads/main' }}
 
