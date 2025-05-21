@@ -1,0 +1,12 @@
+---
+- name: Run proxy/httpd container
+  docker_container:
+    name: apache-proxy
+    image: celmds/tp-devops-simple-httpd
+    restart_policy: no
+
+    ports:
+      - "80:80"
+    networks:
+      - name: backend-network
+      - name: app-network

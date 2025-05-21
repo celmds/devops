@@ -1,0 +1,11 @@
+---
+- name: Run  api container
+  docker_container:
+    name: backend-api
+    image: celmds/tp-devops-simple-api:latest
+    restart_policy: on-failure
+    restart_retries: 3
+    networks:
+      - name: app-network
+      - name: backend-network
+    

@@ -1,0 +1,9 @@
+---
+- name: Run Postgres container (db)
+  docker_container:
+    name: postgres
+    image: celmds/tp-devops-simple-db:latest
+    restart_policy: unless-stopped
+    networks:
+      - name: app-network
+    

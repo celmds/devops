@@ -1,0 +1,13 @@
+---
+# tasks file for docker_network
+- name: Create app Docker network
+  docker_network:
+    name: app-network
+    driver: bridge
+    state: present
+
+- name: Create backend Docker network
+  docker_network:
+    name: backend-network
+    driver: bridge
+    state: present

@@ -175,4 +175,76 @@ On pousse des images Docker pour pouvoir les réutiliser facilement ailleurs, co
 Le but, c’est d’avoir une version figée et prête à l’emploi de notre application (backend, base de données, etc.), qu’on peut déployer n’importe où, sans se soucier de la config locale.
 
 
-b15755a9bb062a62fec20aafb7d0fe512c0ea244
+#TP3
+
+3.1 - Mon fichier d'inventare est situé dans : my-project/ansible/inventories/setup.yml
+
+Structure du fichier setup.yml
+Dans ce fichier, on décrit notre serveur comme ça :
+
+On indique l’adresse du serveur, ici c’est celine-bernardinomendes-formation.takima.cloud (c’est l’hôte)
+
+On précise l’utilisateur avec lequel on va se connecter, ici c’est admin
+
+On met aussi le chemin vers la clé privée qu’on utilise pour se connecter en SSH (c’est super important pour que Ansible puisse accéder au serveur sans mot de passe)
+
+Quelques commandes de base que j’ai testées :
+Pour vérifier qu'on peux bien parler avec le serveur, j’ai fait :
+
+```
+ansible all -i inventories/setup.yml -m ping
+```
+Ça envoie un “ping” via Ansible, et si ça répond( pong) c’est que la connexion marche
+
+Pour récupérer des infos sur la machine distante, comme la distribution Linux, j’ai lancé :
+
+```
+ansible all -i inventories/setup.yml -m setup -a "filter=ansible_distribution*"
+```
+Ça nous donne des détails sur le système, ce qui peut aider pour des configurations spécifiques.
+
+Et si on veut virer un paquet, par exemple Apache2 qu'on avait installé avant , on fait :
+
+```
+ansible all -i inventories/setup.yml -m apt -a "name=apache2 state=absent" --become
+```
+Là, Ansible supprime Apache2 du serveur en demandant les droits admin (--become), et si je relance la commande après, il me dira que rien n’a changé parce que c’est déjà supprimé.
+
+3-2
+On créé un rôle Ansible pour Docker avec la commande ansible-galaxy init roles/docker, puis déplacé toutes les tâches d’installation dans roles/docker/tasks/main.yml. Ensuite, on peut simplifié le playbook principal (playbook.yml) pour qu’il appelle directement ce rôle. Cela rend le projet plus propre et facile à maintenir.
+```
+- hosts: all
+  gather_facts: true
+  become: true
+
+  roles:
+    - docker
+```
+Ce playbook permet d'exécuter un rôle Ansible appelé docker sur tous les hôtes définis dans l'inventaire.
+
+hosts: all
+Cible tous les serveurs listés dans mon inventaire Ansible (ici, le groupe all, qui contient mon serveur distant).
+
+gather_facts: true
+Active la récupération automatique d’informations système (comme la version de l’OS, les interfaces réseau, etc.) pour pouvoir les utiliser dans les tâches.
+
+become: true 
+ Permet d’exécuter les tâches avec les droits administrateur (sudo) sur le serveur distant
+
+roles: Liste des rôles à appliquer. Ici, on applique le rôle docker, qui contient tout ce qu’il faut pour installer et configurer Docker
+
+3.3
+
+On crée  les "roles" en faisant la comande suivante :
+
+ansible-galaxy init roles/<nom du container>
+On utilise le module docker_container pour dire à Ansible de lancer nos conteneurs Docker : la base de données, l’API et le proxy. Chaque conteneur est comme une boîte séparée, et Ansible s’occupe de les démarrer, les configurer, et les connecter au bon réseau
+
+name: nom du conteneur Docker 
+image: image utilisée depuis Docker Hub
+state: started: on veut que le conteneur soit en cours d’exécution
+restart_policy: always: si le conteneur s’arrête, Docker le redémarre automatiquement
+ports: on connecte le port local 5432 à celui du conteneur
+networks: ici on connecte à un réseau Docker (important pour la communication entre conteneurs)
+
+
