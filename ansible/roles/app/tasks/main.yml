@@ -1,5 +1,4 @@
 ---
----
 - name: Run Spring Boot backend-api
   docker_container:
     name: backend-api

@@ -6,4 +6,7 @@
     restart_policy: unless-stopped
     networks:
       - name: app-network
-    
+    env:
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pwd
+      POSTGRES_DB: db
