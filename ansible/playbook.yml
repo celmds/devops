@@ -3,8 +3,8 @@
   become: true
 
   roles:
+    - env
     - docker
-    # - env
     - docker_network
     - database
     - app
