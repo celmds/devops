@@ -1,0 +1,11 @@
+---
+# tasks file for roles/front
+
+- name: Run Front container
+  docker_container:
+    name: front-container
+    image: celmds/tp-devops-front:latest
+    state: started
+    restart_policy: no
+    networks:
+      - name: front-network
