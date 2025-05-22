@@ -2,7 +2,7 @@ name: Build and Deploy
 
 on:
    workflow_run:
-    workflows: ["Build and Push Docker Images"]
+    workflows: ["Docker Build and Push"]
     branches:
       - main
     types:

@@ -1,5 +1,7 @@
-name: Build and Push Docker Images
+name: Docker Build and Push
 
+# This workflow builds and pushes Docker images to Docker Hub after the "CI DevOps 2025" workflow is completed
+# Only the main branch is considered
 on:
   workflow_run:
     workflows: ["CI DevOps 2025"]
@@ -10,35 +12,45 @@ on:
 
 jobs:
   build-and-push-docker-image:
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    # Same Ubuntu version as the CI workflow
     runs-on: ubuntu-24.04
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # Checkout the repository code
+      - uses: actions/checkout@v4
 
-      - name: Login to DockerHub
+      # Log in to Docker Hub using credentials stored in GitHub Secrets
+      - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-      - name: Build image and push backend
+      # Build and push the backend Docker image
+      - name: Build and push backend image
         uses: docker/build-push-action@v6
         with:
-          context: TP1/tp-postgres/simpleapi
+          context: ./TP1/tp-postgres/simpleapi
           tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-api:latest
           push: true
 
-      - name: Build image and push database
+      # Build and push the database Docker image
+      - name: Build and push database image
         uses: docker/build-push-action@v6
         with:
-          context: TP1/tp-postgres/init-db
+          context: ./TP1/tp-postgres/init-db
           tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-db:latest
           push: true
 
-      - name: Build image and push httpd
+      # Build and push the httpd Docker image
+      - name: Build and push httpd image
         uses: docker/build-push-action@v6
         with:
-          context: TP1/tp-postgres/HTTP-server
+          context: ./TP1/tp-postgres/HTTP-server
           tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-httpd:latest
           push: true
-     
-      -
+
+      # Build and push the frontend Docker image
+      - name: Build and push front image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./devops-front-main
+          tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-front:latest
+          push: true
