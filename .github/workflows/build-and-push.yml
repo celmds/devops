@@ -2,7 +2,7 @@ name: Build and Push Docker Images
 
 on:
   workflow_run:
-    workflows: ["Test Backend"]
+    workflows: ["CI DevOps 2025"]
     branches:
       - main
     types:
