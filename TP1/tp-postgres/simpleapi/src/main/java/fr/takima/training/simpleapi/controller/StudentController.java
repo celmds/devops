@@ -23,6 +23,11 @@ import fr.takima.training.simpleapi.service.StudentService;
 @CrossOrigin
 @RequestMapping(value = "/students")
 public class StudentController {
+
+    @GetMapping("/tests")
+    public ResponseEntity<String> testEndpoint() {
+        return ResponseEntity.ok("TEST OK");
+    }
     private final StudentService studentService;
 
     @Autowired
@@ -32,16 +37,16 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<Object> getStudents() {
-        return  ResponseEntity.ok(studentService.getAll());
+        return ResponseEntity.ok(studentService.getAll());
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getStudentById(@PathVariable(name="id") long id) {
+    public ResponseEntity<Object> getStudentById(@PathVariable(name = "id") long id) {
         Optional<Student> studentOptional = Optional.ofNullable(this.studentService.getStudentById(id));
         if (studentOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return  ResponseEntity.ok(studentOptional.get());
+        return ResponseEntity.ok(studentOptional.get());
     }
 
     @PostMapping
@@ -59,7 +64,7 @@ public class StudentController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable(name="id") long id) {
+    public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable(name = "id") long id) {
         Optional<Student> studentOptional = Optional.ofNullable(studentService.getStudentById(id));
         if (studentOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -71,7 +76,7 @@ public class StudentController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> removeStudent(@PathVariable(name="id") long id) {
+    public ResponseEntity<Object> removeStudent(@PathVariable(name = "id") long id) {
         Optional<Student> studentOptional = Optional.ofNullable(studentService.getStudentById(id));
         if (studentOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -80,8 +85,5 @@ public class StudentController {
 
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/test")
-    public ResponseEntity<Object> test() {
-        return ResponseEntity.ok("Test ok");
-    }
+
 }
