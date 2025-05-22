@@ -23,11 +23,6 @@ import fr.takima.training.simpleapi.service.StudentService;
 @CrossOrigin
 @RequestMapping(value = "/students")
 public class StudentController {
-
-    @GetMapping("/tests")
-    public ResponseEntity<String> testEndpoint() {
-        return ResponseEntity.ok("TEST OK");
-    }
     private final StudentService studentService;
 
     @Autowired
@@ -84,6 +79,11 @@ public class StudentController {
         this.studentService.removeStudentById(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> testEndpoint() {
+        return ResponseEntity.ok("test OK");
     }
 
 }
