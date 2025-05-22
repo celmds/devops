@@ -13,25 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-    - name: Build and Push Backend API image
-      run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/tp-devops-api:latest TP1/tp-postgres/simpleapi
-        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-api:latest
-
-    - name: Build and Push Frontend image
-      run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/tp-devops-front:latest ./devops-front-main
-        docker push ${{ secrets.DOCKER_USERNAME }}/tp-devops-front:latest
-
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.7.0
+    - name: SSH & Deploy with Ansible
+      uses: appleboy/ssh-action@v1.0.3
       with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: Run Ansible Playbook
-      run: |
-        cd ansible
-        ansible-playbook -i inventory.yml playbook.yml -e "ansible_user=${{ secrets.SERVER_USER }}" -e "ansible_host=${{ secrets.SERVER_IP }}"
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /chemin/de/ton/playbook
+          ansible-playbook deploy.yml -i inventory
