@@ -1,7 +1,6 @@
 ---
 # tasks file for roles/env
-- name: Set the env file
+- name: Create env file from content
   copy:
-    src: files/.env
+    content: "{{ lookup('env', 'ENV_VARIABLES') }}"
     dest: /tmp/db.env
-    mode: '0644'
