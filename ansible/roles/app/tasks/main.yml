@@ -3,6 +3,7 @@
   docker_container:
     name: backend-api
     image: celmds/tp-devops-simple-api:latest
+    pull: yes
     restart_policy: on-failure
     restart_retries: 3
     networks:

@@ -3,6 +3,7 @@
   docker_container:
     name: postgres
     image: celmds/tp-devops-simple-db:latest
+    pull: yes
     restart_policy: unless-stopped
     networks:
       - name: app-network
