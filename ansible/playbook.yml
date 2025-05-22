@@ -4,14 +4,10 @@
 
   roles:
     - docker
-    - env
+    # - env
     - docker_network
     - database
     - app
     - proxy
 
-- name: Move env file to proper place
-  copy:
-    remote_src: true
-    src: /tmp/.env
-    dest: /tmp/db.env
+
