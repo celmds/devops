@@ -41,9 +41,4 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-httpd:latest
           push: true
      
-      - name: Build and push front
-        uses: docker/build-push-action@v6
-        with:
-          context: ./devops-front-main 
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/tp-devops-front:1:0
-          push: true
+      -
