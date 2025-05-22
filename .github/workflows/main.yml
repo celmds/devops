@@ -65,37 +65,3 @@ jobs:
         working-directory: TP1/tp-postgres/simpleapi
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=celmds_devops -Dsonar.organization=celmds1 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./pom.xml
 
-
-  # 3e job : build et push Docker (uniquement si branche main)
-  build-and-push-docker-image:
-    needs: [test-backend, sonar-analysis]
-    if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-24.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Login to DockerHub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-      - name: Build image and push backend
-        uses: docker/build-push-action@v6
-        with:
-          context: TP1/tp-postgres/simpleapi
-          tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-api:latest
-          push: true
-
-      - name: Build image and push database
-        uses: docker/build-push-action@v6
-        with:
-          context: TP1/tp-postgres/init-db
-          tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-db:latest
-          push: true
-
-      - name: Build image and push httpd
-        uses: docker/build-push-action@v6
-        with:
-          context: TP1/tp-postgres/HTTP-server
-          tags: ${{ secrets.DOCKER_USERNAME }}/tp-devops-simple-httpd:latest
-          push: true

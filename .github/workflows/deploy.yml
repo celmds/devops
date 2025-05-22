@@ -1,5 +1,5 @@
 name: Build and Deploy
-
+# This workflow builds and deploys after the "Docker Build and Push" workflow is completed
 on:
    workflow_run:
     workflows: ["Docker Build and Push"]
