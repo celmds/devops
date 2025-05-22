@@ -248,3 +248,15 @@ ports: on connecte le port local 5432 à celui du conteneur
 networks: ici on connecte à un réseau Docker (important pour la communication entre conteneurs)
 
 
+Is it really safe to deploy automatically every new image on the hub ? explain. What can I do to make it more secure?
+Non, il n’est pas totalement sûr de déployer automatiquement chaque nouvelle image dès qu’elle est poussée sur Docker Hub. Même si cela permet un déploiement rapide, cela peut introduire plusieurs risques importants.
+Par exemple, une image peut être déployée alors qu’elle contient des bugs ou qu’elle n’a pas été suffisamment testée. Si un développeur pousse par erreur une image incomplète, de test, ou contenant une faille de sécurité, elle ira directement en production sans aucune validation. Cela peut provoquer des pannes, des vulnérabilités ou un comportement inattendu de l’application.
+Pour rendre ce processus plus sécurisé, on peut mettre en place plusieurs mesure :
+Ajouter des tests automatiques dans le pipeline (tests unitaires, d’intégration, etc..) pour s’assurer que tout fonctionne avant le déploiement
+Éviter le tag latest et utiliser des tags versionnés (comme v1.0.0) afin de savoir précisément quelle version est déployée
+Insérer une étape de validation manuelle pour approuver certaines mises en production sensibles
+Signer les images Docker avec des outils comme Docker Content Trust pour garantir leur intégrité
+Scanner les images avec des outils comme Trivy afin de détecter des failles de sécurité
+Limiter les droits sur le dépôt Docker Hub : seuls certains utilisateurs devraient pouvoir pousser des images de production.
+
+
