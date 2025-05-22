@@ -1,5 +1,6 @@
 ---
-- name: Run  api container
+---
+- name: Run Spring Boot backend-api
   docker_container:
     name: backend-api
     image: celmds/tp-devops-simple-api:latest
@@ -8,4 +9,9 @@
     networks:
       - name: app-network
       - name: backend-network
-    
+    env:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: db
+      DB_USER: usr
+      DB_PASSWORD: pwd

@@ -1,12 +1,8 @@
 package fr.takima.training.simpleapi.controller;
 
-import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @CrossOrigin
@@ -21,9 +17,4 @@ public class GreetingController {
     }
 
     record Greeting(long id, String content) { }
-    @GetMapping("/test")
-    public ResponseEntity<String> testEndpoint() {
-        return ResponseEntity.ok("test OK");
-    }
-
 }
